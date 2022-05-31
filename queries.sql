@@ -51,6 +51,7 @@ UPDATE ANIMALS SET weight_kg = weight_kg*-1;
 ROLLBACK TO SP1;
 
 -- Update all animals' weights that are negative to be their weight multiplied by -1.
+UPDATE animals SET weight_kg = weight_kg * -1 WHERE weight_kg < 1;
 
 -- Commit transaction
 BEGIN;
@@ -63,7 +64,7 @@ SELECT COUNT(*) FROM ANIMALS WHERE escape_attempts = 0;
 -- What is the average weight of animals?
 SELECT AVG(weight_kg) from animals;
 -- Who escapes the most, neutered or not neutered animals?
-select MAX(escape_attempts) from animals;
+SELECT name FROM animals WHERE escape_attempts = (SELECT MAX(escape_attempts) FROM animals);
 -- What is the minimum and maximum weight of each type of animal?
 select min(weight_kg),max(weight_kg) from animals;
 -- What is the average number of escape attempts per animal type of those born between 1990 and 2000?
