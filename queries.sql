@@ -19,7 +19,7 @@ select * from animals where weight_kg>=10.4 AND weight_kg<=17.3;
 -- Inside a transaction update the animals table by setting the species column to unspecified. Verify that change was made. Then roll back the change and verify that species columns went back to the state before transaction.
  BEGIN;
  UPDATE animals SET species ='unspecified';
- select * from animals ;
+ select species from animals ;
  Rollback;
 
 -- Inside a transaction:
@@ -32,7 +32,7 @@ UPDATE animals SET species='pokemon' WHERE species ='';
 BEGIN;
 COMMIT TRANSACTION;
 -- Verify that change was made and persists after commit.
-select * from animals;
+select species from animals;
 -- Now, take a deep breath and... Inside a transaction delete all records in the animals table, then roll back the transaction.
 -- After the roll back verify if all records in the animals table still exist. After that you can start breath as usual ;)
 BEGIN;
