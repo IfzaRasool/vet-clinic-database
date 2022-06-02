@@ -5,11 +5,11 @@ CREATE TABLE animals(id INT PRIMARY KEY NOT NULL,name TEXT NOT NULL,date_of_birt
 -- Add Column species.
 ALTER TABLE animals ADD species TEXT;
 --  Create owners table
-CREATE TABLE owners(id SERIAL PRIMARY KEY, full_name Text, age int);
+CREATE TABLE owners(id SERIAL PRIMARY KEY NOT NULL, full_name VARCHAR(255), age int);
 --  id is set as autoincremented PRIMARY KEY
 ALTER TABLE animals ADD id SERIAL PRIMARY KEY;
 --  Create species table
-CREATE TABLE species(id SERIAL PRIMARY KEY, name Text);
+CREATE TABLE species(id SERIAL PRIMARY KEY NOT NULL, name VARCHAR(255));
 -- Delete the column;
 ALTER TABLE animals DROP COLUMN species;
 -- Add column species_id which is a foreign key referencing species table
