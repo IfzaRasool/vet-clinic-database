@@ -64,8 +64,31 @@ SELECT COUNT(*) FROM ANIMALS WHERE escape_attempts = 0;
 -- What is the average weight of animals?
 SELECT AVG(weight_kg) from animals;
 -- Who escapes the most, neutered or not neutered animals?
-SELECT name FROM animals WHERE escape_attempts = (SELECT MAX(escape_attempts) FROM animals);
+SELECT neutered,MAX(escape_attempts) FROM animals GROUP BY neutered;
 -- What is the minimum and maximum weight of each type of animal?
 select min(weight_kg),max(weight_kg) from animals;
+-- OR
+select species,min(weight_kg),max(weight_kg) from animals group by species;
 -- What is the average number of escape attempts per animal type of those born between 1990 and 2000?
 select AVG(escape_attempts) from animals where date_of_birth BETWEEN '1990-01-01' AND '2000-01-01';
+-- or
+SELECT species, AVG(escape_attempts) FROM animals WHERE date_of_birth BETWEEN '1990-12-31' AND '2000-12-31' GROUP BY species;
+
+-- Write queries (using JOIN) to answer the following questions:
+-- What animals belong to Melody Pond?
+select animals.name FROM animals INNER JOIN owners on animals.owner_id=owners.id where owners.full_name ='Melody Pond';
+-- List of all animals that are pokemon (their type is Pokemon).
+select animals.name FROM animals INNER JOIN species on animals.species_id=species.id where species.name ='Pokemon';
+-- List all owners and their animals, remember to include those that don't own any animal.
+ select owners.full_name,animals.name from animals RIGHT JOIN owners ON owners.id=animals.owner_id;
+-- How many animals are there per species?
+SELECT species.name, COUNT(*)
+FROM animals
+JOIN species ON animals.species_id = species.id
+GROUP BY (species.name);
+-- List all Digimon owned by Jennifer Orwell.
+select species.name,owners.full_name from animals INNER JOIN owners on owners.id=animals.owner_id INNER JOIN species ON animals.species_id = species.id where owners.full_name ='Jennifer Orwell' AND species.name ='Digimon';
+-- List all animals owned by Dean Winchester that haven't tried to escape.
+select animals.name,owners.full_name from animals INNER JOIN owners on owners.id=animals.owner_id INNER JOIN species ON animals.species_id = species.id where owners.full_name ='Jennifer Orwell' AND animals.escape_attempts = 0;
+-- Who owns the most animals?
+select owners.full_name,count(*) as val_occurance from owners INNER JOIN animals ON owners.id=animals.owner_id GROUP BY (owners.full_name) ORDER BY val_occurance DESC LIMIT 1;
