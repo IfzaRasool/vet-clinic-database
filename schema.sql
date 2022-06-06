@@ -22,3 +22,22 @@ CREATE TABLE vets(id SERIAL PRIMARY KEY NOT NULL,name VARCHAR(255), age INT,date
 CREATE TABLE specializations(id SERIAL PRIMARY KEY NOT NULL,vets_name VARCHAR(255), species_name VARCHAR(255));
 -- Create a table named visits.
 CREATE TABLE visits(id SERIAL PRIMARY KEY NOT NULL,animals_name VARCHAR(255), vets_name VARCHAR(255),date_of_visit date);
+
+-- Database Performance
+-- Run the following query to add an extra column to the owners table:
+-- Add an email column to your owners table
+ALTER TABLE owners ADD COLUMN email VARCHAR(120);
+-- Run the following statements to add data to your database (executing them might take a few minutes):
+
+--  Check that by running 
+explain analyze SELECT COUNT(*) FROM visits where animal_id = 4;
+
+-- Find a way to decrease the execution time of the first query. Look for hints in the previous lessons.
+Excecution Time :174.423 ms
+The way to decrese the excution time is create Index.
+CREATE INDEX animals_index ON visits(animals_id);
+After creating index "Execution Time: 58.526 ms"
+-- Second query
+CREATE INDEX vets_index ON visits(vets_id);
+-- Third query
+CREATE INDEX email_index ON owners(email);
